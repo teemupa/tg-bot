@@ -39,7 +39,7 @@ def ruuvi(update: Update, context: CallbackContext):
                 context.bot.send_message(chat_id=update.effective_chat.id, text=title + body, parse_mode=ParseMode.HTML)
         else:
             logging.error('Query of Ruuvi database failed.')
-            
+
 def is_me(user):
     #TODO Can I use a filter to filter requests only from me?
     if user['id'] == config.me:
@@ -50,6 +50,7 @@ def main():
     updater = Updater(token=config.token, use_context=True)
     dispatcher = updater.dispatcher
 
+    #TODO Can I filter messages only from me?
     dispatcher.add_handler(CommandHandler('start', start))
     dispatcher.add_handler(CommandHandler('ruuvi', ruuvi))
 
