@@ -2,6 +2,7 @@
 
 import mysql.connector
 import config
+
 class Ruuvi:
     def __init__(self):
         self.mydb = mysql.connector.connect(
