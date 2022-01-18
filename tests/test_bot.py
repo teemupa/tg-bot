@@ -13,7 +13,6 @@ class TestBot(unittest.TestCase):
     
     def tearDown(self):
         pass
-
     @patch.object(Ruuvi, "get_all")
     def test_ruuvi(self, get_all):
         m_update = Mock()
