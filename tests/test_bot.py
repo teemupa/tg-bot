@@ -19,7 +19,7 @@ class TestBot(unittest.TestCase):
 
     @patch.object(Ruuvi, 'get_all')
     def test_ruuvi_query_ok(self, get_all):
-        get_all.return_value = {'sauna':{'temperature': 25.0, 'humidity': 89.1, 'pressure': 899.89, 'time': datetime.datetime(2009, 1, 6, 15, 8, 24)}}
+        get_all.return_value = {'sauna':{'temperature': 25.0, 'humidity': 89.1, 'pressure': 899.89, 'time': datetime.datetime(2021, 4, 25, 15, 8, 24)}}
 
         message = ( "<b>Sauna</b>" +
                     "\n\U0001f321 " + str(get_all.return_value['sauna']['temperature']) + "\u00b0C" +
