@@ -39,6 +39,5 @@ class TestBot(ut.TestCase):
         #Check that message wasn't sent.
         self.m_context.bot.send_message.assert_not_called()
 
-
 if __name__ == '__main__':
-    unittest.main()
+    ut.main()
