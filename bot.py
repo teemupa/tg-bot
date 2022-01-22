@@ -38,7 +38,7 @@ def ruuvi(update: Update, context: CallbackContext):
                         )
                 context.bot.send_message(chat_id=update.effective_chat.id, text=title + body, parse_mode=ParseMode.HTML)
         else:
-            logging.error('Query of Ruuvi database failed.')
+            logging.error('Ruuvi query failed.')
 
 def is_me(user):
     #TODO Can I use a filter to filter requests only from me?
