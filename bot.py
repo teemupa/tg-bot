@@ -7,6 +7,7 @@ from telegram.ext import CommandHandler
 from telegram.ext import Filters
 from telegram import ParseMode
 from ruuvi import Ruuvi
+from ski_tracks import SkiTracks
 import config
 import logging
 
@@ -35,11 +36,17 @@ def ruuvi(update: Update, context: CallbackContext):
     else:
         logging.error('Ruuvi query failed.')
 
+def latu(update: Update, context: CallbackContext):
+    tracks = SkiTracks()
+    data = tracks.maintenance_status()
+    context.bot.send_message(chat_id=update.effective_chat.id, text=str(data), parse_mode=ParseMode.HTML)
+
 def main():
     updater = Updater(token=config.token, use_context=True)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler('ruuvi', ruuvi, Filters.user(username=config.me)))
+    dispatcher.add_handler(CommandHandler('latu', latu, Filters.user(username=config.me)))
 
     updater.start_polling()
 
