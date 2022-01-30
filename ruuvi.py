@@ -24,7 +24,7 @@ class Ruuvi:
                         )
             self.cursor = self.conn.cursor()
         except mysql.connector.Error as e:
-            logging.error('Database connection failed: {}'.format(e))
+            logging.error("Database connection failed: {}".format(e))
         
         return self.cursor
 
@@ -51,6 +51,6 @@ class Ruuvi:
                                         }
                                     })
                 except mysql.connector.Error as e:
-                    logging.error('Database query failed: {}'.format(e))
+                    logging.error("Database query failed: {}".format(e))
  
         return data

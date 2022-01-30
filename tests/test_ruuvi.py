@@ -2,7 +2,6 @@ import unittest as ut
 from unittest import mock
 from ruuvi import Ruuvi
 import datetime
-import datetime
 from mysql.connector.errors import DatabaseError
 
 class TestRuuvi(ut.TestCase):

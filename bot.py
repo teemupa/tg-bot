@@ -16,7 +16,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 def ruuvi(update: Update, context: CallbackContext):
     user = update.message.from_user
-    logging.info('Ruuvi query from user %s', user)
+    logging.info("/ruuvi command from user %s", user)
     ruuvi = Ruuvi()
     data = ruuvi.get_all()
     if data:
@@ -34,19 +34,28 @@ def ruuvi(update: Update, context: CallbackContext):
                     )
             context.bot.send_message(chat_id=update.effective_chat.id, text=title + body, parse_mode=ParseMode.HTML)
     else:
-        logging.error('Ruuvi query failed.')
+        context.bot.send_message(chat_id=update.effective_chat.id, text="ERROR: Ruuvi query failed!", parse_mode=ParseMode.HTML)
+        logging.error("/ruuvi command query failed.")
 
 def latu(update: Update, context: CallbackContext):
+    user = update.message.from_user
+    logging.info("/latu command received from user %s", user)
     tracks = SkiTracks()
     data = tracks.maintenance_status()
-    context.bot.send_message(chat_id=update.effective_chat.id, text=str(data), parse_mode=ParseMode.HTML)
+    message = ""
+    if data:
+        for i in data:
+            message = message + "\n \U0001F3BF <b>" + i['description'] + ":</b> \n" + i['maintainedAt'] + "\n"
+        context.bot.send_message(chat_id=update.effective_chat.id, text=message, parse_mode=ParseMode.HTML)
+    else:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="ERROR: Maintenance status not found!", parse_mode=ParseMode.HTML)
 
 def main():
     updater = Updater(token=config.token, use_context=True)
     dispatcher = updater.dispatcher
 
-    dispatcher.add_handler(CommandHandler('ruuvi', ruuvi, Filters.user(username=config.me)))
-    dispatcher.add_handler(CommandHandler('latu', latu, Filters.user(username=config.me)))
+    dispatcher.add_handler(CommandHandler('ruuvi', ruuvi, Filters.user(username=config.users)))
+    dispatcher.add_handler(CommandHandler('latu', latu, Filters.user(username=config.users)))
 
     updater.start_polling()
 
