@@ -8,6 +8,7 @@ from telegram.ext import Filters
 from telegram import ParseMode
 from ruuvi import Ruuvi
 from ski_tracks import SkiTracks
+from f1 import F1
 import config
 import logging
 
@@ -50,12 +51,17 @@ def latu(update: Update, context: CallbackContext):
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text="ERROR: Maintenance status not found!", parse_mode=ParseMode.HTML)
 
+def f1(update: Update, context: CallbackContext):
+    f1 = F1()
+    f1.driver_standings()
+
 def main():
     updater = Updater(token=config.token, use_context=True)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler('ruuvi', ruuvi, Filters.user(username=config.users)))
     dispatcher.add_handler(CommandHandler('latu', latu, Filters.user(username=config.users)))
+    dispatcher.add_handler(CommandHandler('f1', f1, Filters.user(username=config.users)))
 
     updater.start_polling()
 

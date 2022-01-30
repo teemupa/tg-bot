@@ -13,6 +13,7 @@ class Resource:
     def from_endpoint(self, endpoint):
         r = requests.get(self.api + endpoint)
         body = {}
+        logging.info("GET %s from %s%s", r.status_code, self.api, endpoint)
         if r.status_code == 200:
             if self.type == 'json':
                 try:
@@ -21,6 +22,4 @@ class Resource:
                     pass
             elif self.type == 'xml':
                 pass
-        else:
-            logging.error("GET %s from %s%s", r.status_code, self.api, endpoint)
         return body
