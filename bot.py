@@ -46,7 +46,7 @@ def latu(update: Update, context: CallbackContext):
     message = ""
     if data:
         for i in data:
-            message = message + "\n \U0001F3BF <b>" + i['description'] + ":</b> \n" + i['maintainedAt'] + "\n"
+            message = message + "\n \U0001F3BF <b>" + i['description'] + ":</b> \n" + str(i['maintainedAt']) + "\n"
         context.bot.send_message(chat_id=update.effective_chat.id, text=message, parse_mode=ParseMode.HTML)
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text="ERROR: Maintenance status not found!", parse_mode=ParseMode.HTML)

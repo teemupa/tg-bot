@@ -1,6 +1,7 @@
 from resource import Resource
 import config
 import logging
+from datetime import datetime, timezone
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -25,14 +26,20 @@ class SkiTracks(Resource):
 
     def maintenance_status(self):
         data = []
-        json = self.from_endpoint('operations')
+        json = self.from_endpoint('operation/list')
         if json:
             for i in json:
+                #Change venue names.
                 if i['description'] in self.__locations:
                     mapped = self.__location_mapping(i['description'])
                     if mapped:
                         i['description'] = mapped
                     data.append(i)
+                #Adjust timezone and timestamp format.
+                timestamp = datetime.strptime(i['maintainedAt'], '%Y-%m-%dT%H:%M:%S%z')
+                timestamp = timestamp.replace(tzinfo=timezone.utc).astimezone(tz=None)
+                i['maintainedAt'] = timestamp.strftime("%d.%m.%Y @ %H:%M")
+
         else:
             logging.error("Ski tracks maintenance data not found.")
         return data
