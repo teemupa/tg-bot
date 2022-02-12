@@ -5,6 +5,7 @@ import config
 import datetime
 from ruuvi import Ruuvi
 from ski_tracks import SkiTracks
+from f1 import F1
 
 class TestBot(ut.TestCase):
 
@@ -72,6 +73,110 @@ class TestBot(ut.TestCase):
         #Check sent message.
         self.m_context.bot.send_message.assert_called()
         self.m_context.bot.send_message.assert_called_with(chat_id=0, parse_mode='HTML', text="ERROR: Maintenance status not found!")
+
+    @mock.patch.object(F1, 'driver_standings')
+    def test_f1_driver_standings_ok(self, driver_standings):
+        message = "<b>#\tName\tPoints</b>\n"\
+                  "1. Hamilton 40\n"\
+                  "2. Vettel 34\n"\
+                  "3. Bottas 23"
+
+        self.m_context.args = ['drivers']
+        driver_standings.return_value = [
+            ('1', '40', 'Hamilton'),
+            ('2', '34', 'Vettel'),
+            ('3', '23', 'Bottas'),
+        ]
+
+        bot.f1(self.m_update, self.m_context)
+
+        self.m_context.bot.send_message.assert_called()
+        self.m_context.bot.send_message.assert_called_with(chat_id=0, parse_mode='HTML', text=message)
+
+    @mock.patch.object(F1, 'driver_standings')
+    def test_f1_driver_standings_fail(self, driver_standings):
+        message = "ERROR: Unable to fetch f1 data!"
+
+        self.m_context.args = ['drivers']
+        driver_standings.return_value = []
+
+        bot.f1(self.m_update, self.m_context)
+
+        self.m_context.bot.send_message.assert_called()
+        self.m_context.bot.send_message.assert_called_with(chat_id=0, parse_mode='HTML', text=message)
+
+    @mock.patch.object(F1, 'constructor_standings')
+    def test_f1_constructor_standings_ok(self, constructor_standings):
+        message = "<b>#\tTeam\tPoints</b>\n"\
+                  "1. Mercedes 40\n"\
+                  "2. Aston Martin 34\n"\
+                  "3. Alfa Romeo 23"
+
+        self.m_context.args = ['teams']
+        constructor_standings.return_value = [
+            ('1', '40', 'Mercedes'),
+            ('2', '34', 'Aston Martin'),
+            ('3', '23', 'Alfa Romeo'),
+        ]
+
+        bot.f1(self.m_update, self.m_context)
+
+        self.m_context.bot.send_message.assert_called()
+        self.m_context.bot.send_message.assert_called_with(chat_id=0, parse_mode='HTML', text=message)
+
+    @mock.patch.object(F1, 'constructor_standings')
+    def test_f1_constructor_standings_fail(self, constructor_standings):
+        message = "ERROR: Unable to fetch f1 data!"
+
+        self.m_context.args = ['teams']
+        constructor_standings.return_value = []
+
+        bot.f1(self.m_update, self.m_context)
+
+        self.m_context.bot.send_message.assert_called()
+        self.m_context.bot.send_message.assert_called_with(chat_id=0, parse_mode='HTML', text=message)
+
+    @mock.patch.object(F1, 'season')
+    def test_f1_season_ok(self, season):
+        message = "<b>Season calendar</b>\n"\
+                  "20.03.2022: Bahrain Grand Prix\n"\
+                  "27.03.2022: Saudi Arabian Grand Prix\n"\
+                  "10.04.2022: Australian Grand Prix"
+
+        self.m_context.args = ['season']
+        season.return_value = [
+            ('20.03.2022', 'Bahrain Grand Prix'),
+            ('27.03.2022', 'Saudi Arabian Grand Prix'),
+            ('10.04.2022', 'Australian Grand Prix')
+        ]
+
+        bot.f1(self.m_update, self.m_context)
+
+        self.m_context.bot.send_message.assert_called()
+        self.m_context.bot.send_message.assert_called_with(chat_id=0, parse_mode='HTML', text=message)
+
+    @mock.patch.object(F1, 'season')
+    def test_f1_season_fail(self, season):
+        message = "ERROR: Unable to fetch f1 data!"
+
+        self.m_context.args = ['season']
+        season.return_value = []
+
+        bot.f1(self.m_update, self.m_context)
+
+        self.m_context.bot.send_message.assert_called()
+        self.m_context.bot.send_message.assert_called_with(chat_id=0, parse_mode='HTML', text=message)
+
+    def test_f1_no_such_argument(self):
+        message = "ERROR: No such argument!"
+
+        self.m_context.args = ['invalid']
+
+        bot.f1(self.m_update, self.m_context)
+
+        self.m_context.bot.send_message.assert_called()
+        self.m_context.bot.send_message.assert_called_with(chat_id=0, parse_mode='HTML', text=message)
+
 
 if __name__ == '__main__':
     ut.main()

@@ -38,7 +38,7 @@ class SkiTracks(Resource):
                 #Adjust timezone and timestamp format.
                 timestamp = datetime.strptime(i['maintainedAt'], '%Y-%m-%dT%H:%M:%S%z')
                 timestamp = timestamp.replace(tzinfo=timezone.utc).astimezone(tz=None)
-                i['maintainedAt'] = timestamp.strftime("%d.%m.%Y @ %H:%M")
+                i['maintainedAt'] = timestamp.strftime('%d.%m.%Y @ %H:%M')
 
         else:
             logging.error("Ski tracks maintenance data not found.")

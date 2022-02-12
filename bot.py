@@ -53,7 +53,41 @@ def latu(update: Update, context: CallbackContext):
 
 def f1(update: Update, context: CallbackContext):
     f1 = F1()
-    f1.driver_standings()
+    logging.info("/f1 command with args: %s", str(context.args))
+    standings = []
+    season = []
+    message = ""
+
+    if len(context.args) == 1:
+        arg = context.args[0]
+        if arg == 'drivers':
+            standings = f1.driver_standings()
+            message = "<b>#\tName\tPoints</b>"
+        elif arg == 'teams':
+            standings = f1.constructor_standings()
+            message = "<b>#\tTeam\tPoints</b>"
+        elif arg == 'season':
+            season = f1.season()
+            message = '<b>Season calendar</b>'
+        else:
+            message = "ERROR: No such argument!"
+            context.bot.send_message(chat_id=update.effective_chat.id, text=message, parse_mode=ParseMode.HTML)
+            return
+
+        if (arg == 'drivers' or arg == 'teams') and standings:
+            for i in standings:
+                message = message + '\n' + i[0] + '. ' + i[2] + ' ' + i[1]
+        elif arg == 'season' and season:
+            for i in season:
+                message = message + '\n' + i[0] + ': ' + i[1]
+        else:
+            message = "ERROR: Unable to fetch f1 data!"
+    else:
+        message = "usage: /f1 teams|drivers|season"
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text=message, parse_mode=ParseMode.HTML)
+
+
 
 def main():
     updater = Updater(token=config.token, use_context=True)
