@@ -18,3 +18,4 @@ This project is written in Python using the amazing [python-telegram-bot ](https
 ### Resources
 
 * Ski track data is based on [Fluent Outdoors](https://oulu.fluentprogress.fi/outdoors).
+* Formula 1 data is provided by the awesome [Ergast Motorsport API](https://ergast.com/mrd/).
