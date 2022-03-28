@@ -160,10 +160,11 @@ class TestF1(ut.TestCase):
         self.assertEqual(expected_standings, standings)
 
     @mock.patch('requests.get', autospec=True)
-    def test_season_empty(self, mock_response):
+    def test_season_empty_02(self, mock_response):
         f1 = F1()
-        mock_response.return_value.status_code = 404
-        test_json = {}
+        mock_response.return_value.status_code = 200
+        test_json = {'MRData':{'RaceTable':{'Races':[
+        ]}}}
         mock_response.return_value.json.return_value = test_json
 
         expected_standings = []
