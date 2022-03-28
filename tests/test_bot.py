@@ -44,14 +44,12 @@ class TestBot(ut.TestCase):
 
     @mock.patch.object(SkiTracks, 'maintenance_status')
     def test_ski_tracks_maintentance_status_ok(self, maintenance_status):
-        maintenance_status.return_value = [{'description': 'Auranmaja 1,2,3,5 km', 'name': 'Oulu', 'maintainedAt': '28.01.2022 10:43',
-                                            'id': 89739149, 'type': 'skitrack'},                                                                                                                                                                                                                                                                                                        
-                                            {'description': 'Hiukkavaara-Auranmaja 11km', 'name': 'Oulu', 'maintainedAt': '27.01.2022 22:08',
-                                            'id': 89661884, 'type': 'skitrack'},                                                                                                                                                                                                                                                                                                  
-                                            {'description': 'Auranmaja-Kuivasranta- Vahtola-Niittyaro 10km', 'name': 'Oulu', 'maintainedAt': '27.01.2022 13:46',
-                                            'id': 89618897, 'type': 'skitrack'},                                                                                                                                                                                                                                                                               
-                                            {'description': 'Herukka-Ahvenoja 4.5km', 'name': 'Oulu', 'maintainedAt': '27.01.2022 13:07',
-                                            'id': 89614764, 'type': 'skitrack'}]
+        maintenance_status.return_value = [
+            ('Auranmaja 1,2,3,5 km', '28.01.2022 10:43'),
+            ('Hiukkavaara-Auranmaja 11km', '27.01.2022 22:08'),
+            ('Auranmaja-Kuivasranta- Vahtola-Niittyaro 10km', '27.01.2022 13:46'),
+            ('Herukka-Ahvenoja 4.5km', '27.01.2022 13:07')
+        ]
 
         message = "\n 🎿 <b>Auranmaja 1,2,3,5 km:</b> \n28.01.2022 10:43\n\n "\
                     "🎿 <b>Hiukkavaara-Auranmaja 11km:</b> \n27.01.2022 22:08\n\n "\

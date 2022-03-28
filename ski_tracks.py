@@ -25,21 +25,25 @@ class SkiTracks(Resource):
             return None
 
     def maintenance_status(self):
-        data = []
-        json = self.from_endpoint('operation/list')
-        if json:
-            for i in json:
+        status_list = []
+        status = self.from_endpoint('operation/list')
+        if status:
+            for i in status:
                 #Change venue names.
-                if i['description'] in self.__locations:
-                    mapped = self.__location_mapping(i['description'])
-                    if mapped:
-                        i['description'] = mapped
-                    data.append(i)
-                #Adjust timezone and timestamp format.
-                timestamp = datetime.strptime(i['maintainedAt'], '%Y-%m-%dT%H:%M:%S%z')
-                timestamp = timestamp.replace(tzinfo=timezone.utc).astimezone(tz=None)
-                i['maintainedAt'] = timestamp.strftime('%d.%m.%Y @ %H:%M')
+                try:
+                    if i['description'] in self.__locations:
+                        mapped = self.__location_mapping(i['description'])
+                        if mapped:
+                            i['description'] = mapped
+                            #Adjust timezone and timestamp format.
+                            timestamp = datetime.strptime(i['maintainedAt'], '%Y-%m-%dT%H:%M:%S%z')
+                            timestamp = timestamp.replace(tzinfo=timezone.utc).astimezone(tz=None)
+                            i['maintainedAt'] = timestamp.strftime('%d.%m.%Y @ %H:%M')
+                            status_list.append((i['description'], i['maintainedAt']))
+                except KeyError as e:
+                    logging.error("KeyError: {}".format(e))
 
         else:
-            logging.error("Ski tracks maintenance data not found.")
-        return data
+            logging.error("Ski tracks maintenance status_list not found.")
+
+        return status_list
