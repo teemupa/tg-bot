@@ -4,6 +4,7 @@ A Telegram bot for my personal usage. Current features:
 
 * Get data from my Ruuvi tags placed around my home.
 * Query the maintenance status of my local ski tracks.
+* Get F1 standings and the season calendar.
 
 ## Running tests
 
