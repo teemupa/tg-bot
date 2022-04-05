@@ -12,7 +12,7 @@ class SkiTracks(Resource):
         super().__init__(config.ski_tracks_api, 'json')
         self.__locations = {
                     'Hiukkavaara-Auranmaja 11km' : 'Hiukkavaara - Auranmaja (11km)',
-                    'Auranmaja 1,2,3,5 km' : 'Auranmaja (3/5km)',
+                    'Auranmaja 1,2,3,5 km valaistu' : 'Auranmaja (3/5km)',
                     'Auranmaja-Kuivasranta- Vahtola-Niittyaro 10km' : 'Niittyaro - Auranmaja (10km)',
                     'Herukka-Ahvenoja 4.5km' : 'Herukka - Ahvenoja (4.5km)'
                   }
