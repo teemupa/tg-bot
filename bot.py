@@ -17,7 +17,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 def ruuvi(update: Update, context: CallbackContext):
     user = update.message.from_user
-    logging.info("/ruuvi command from user %s", user)
+    logging.info("/ruuvi command from user")
     ruuvi = Ruuvi()
     data = ruuvi.get_all()
     if data:
@@ -39,8 +39,7 @@ def ruuvi(update: Update, context: CallbackContext):
         logging.error("/ruuvi command query failed.")
 
 def latu(update: Update, context: CallbackContext):
-    user = update.message.from_user
-    logging.info("/latu command received from user %s", user)
+    logging.info("/latu command received")
     tracks = SkiTracks()
     data = tracks.maintenance_status()
     message = ""
