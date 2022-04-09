@@ -16,6 +16,8 @@ python3 -m unittest -v
 
 This project is written in Python using the amazing [python-telegram-bot ](https://github.com/python-telegram-bot/python-telegram-bot) wrapper module. More features to come whenever I have the time to add them.
 
+To run the the project, remember to create the config.py file.
+
 ### Resources
 
 * Ski track data is based on [Fluent Outdoors](https://oulu.fluentprogress.fi/outdoors).
